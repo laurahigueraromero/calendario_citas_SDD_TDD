@@ -33,7 +33,9 @@ cd backend && ./mvnw spring-boot:run
 cd frontend && pnpm install && pnpm dev
 ```
 
-El backend usa por defecto la BD `calendario` / usuario `calendario` que crea el compose. Para cambiar puertos o credenciales, copia `.env.example` a `.env`.
+El backend usa por defecto la BD `calendario` / usuario `calendario` que crea el compose. El perfil de Spring por defecto es `local` (`docker` para el contenedor, `test` para los tests); se cambia con `SPRING_PROFILES_ACTIVE`. Para puertos o credenciales, copia `.env.example` a `.env`.
+
+El esquema lo gestiona **Flyway**. Para añadir un cambio, crea un fichero nuevo en `backend/src/main/resources/db/migration/` con el patrón `V<n>__descripcion.sql` (las migraciones ya mergeadas son inmutables). Se aplican solas al arrancar el backend y en los tests de integración.
 
 > Los Dockerfiles de backend y frontend (y sus servicios en el compose) se añadirán más adelante; de momento ambos se ejecutan en local contra la infraestructura del compose.
 
