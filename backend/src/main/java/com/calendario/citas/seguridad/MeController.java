@@ -3,6 +3,7 @@ package com.calendario.citas.seguridad;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -23,7 +24,17 @@ public class MeController {
 		body.put("nombre", nombre(principal));
 		body.put("email", principal.getAttribute("email"));
 		body.put("proveedor", token.getAuthorizedClientRegistrationId());
+		body.put("rol", rol(principal));
 		return body;
+	}
+
+	private static String rol(OAuth2User principal) {
+		return principal.getAuthorities().stream()
+				.map(GrantedAuthority::getAuthority)
+				.filter(a -> a.startsWith("ROLE_"))
+				.map(a -> a.substring("ROLE_".length()))
+				.findFirst()
+				.orElse(null);
 	}
 
 	private static String nombre(OAuth2User principal) {
