@@ -1,50 +1,41 @@
-# frontend
+# frontend — calendario_citas_SDD_TDD
 
-This template should help get you started developing with Vue 3 in Vite.
+SPA en Vue 3 + Vite. Gestor de paquetes: **pnpm** (ver campo `packageManager` en `package.json`; con Corepack basta `corepack enable`).
 
-## Recommended IDE Setup
-
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
-
-## Recommended Browser Setup
-
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
+## Puesta en marcha
 
 ```sh
-npm install
+pnpm install
 ```
 
-### Compile and Hot-Reload for Development
+### Desarrollo con recarga en caliente
 
 ```sh
-npm run dev
+pnpm dev
 ```
 
-### Compile and Minify for Production
+### Build de producción
 
 ```sh
-npm run build
+pnpm build
 ```
 
-### Run Unit Tests with [Vitest](https://vitest.dev/)
+### Tests unitarios ([Vitest](https://vitest.dev/))
 
 ```sh
-npm run test:unit
+pnpm test:unit          # una pasada (lo que ejecuta el CI)
+pnpm test:unit:watch    # modo watch
 ```
 
-### Lint with [ESLint](https://eslint.org/)
+### Lint ([oxlint](https://oxc.rs/) + [ESLint](https://eslint.org/))
 
 ```sh
-npm run lint
+pnpm lint       # comprueba, sin modificar (lo que ejecuta el CI)
+pnpm lint:fix   # aplica correcciones automáticas
 ```
+
+## IDE recomendado
+
+[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (deshabilita Vetur).
+
+Configuración de Vite: [Vite Configuration Reference](https://vite.dev/config/).

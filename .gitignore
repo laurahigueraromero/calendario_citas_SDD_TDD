@@ -24,6 +24,9 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
+# El proyecto usa pnpm: no versionar lockfiles de otros gestores
+package-lock.json
+yarn.lock
 
 # ---- Entorno / secretos ----
 .env
