@@ -1,0 +1,13 @@
+# Perfil de tests (lo activa la clase base support/IntegrationTest).
+# El datasource lo aporta Testcontainers vía @ServiceConnection
+# (support/TestcontainersConfiguration), no se configura aquí.
+
+spring:
+  jpa:
+    show-sql: false
+
+logging:
+  level:
+    org.testcontainers: warn
+    com.github.dockerjava: warn
+    org.hibernate.SQL: warn
