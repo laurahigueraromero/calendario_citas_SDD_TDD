@@ -1,0 +1,36 @@
+spring:
+  application:
+    name: calendario-citas
+
+  # Valores por defecto pensados para `docker compose up` (ver docker-compose.yml
+  # en la raíz). Se pueden sobrescribir con variables de entorno.
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3306/calendario}
+    username: ${SPRING_DATASOURCE_USERNAME:calendario}
+    password: ${SPRING_DATASOURCE_PASSWORD:calendario}
+
+  jpa:
+    # La creación del esquema se hará con migraciones versionadas (Flyway),
+    # aún no configuradas. De momento Hibernate no toca el esquema.
+    hibernate:
+      ddl-auto: none
+    open-in-view: false
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+
+  mail:
+    host: ${SPRING_MAIL_HOST:localhost}
+    port: ${SPRING_MAIL_PORT:1025}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+# Configuración propia de la aplicación (ver PRD).
+app:
+  # Zona horaria única de empresa: se almacena en UTC y se presenta en esta zona.
+  timezone: ${APP_TIMEZONE:Europe/Madrid}

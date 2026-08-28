@@ -1,0 +1,50 @@
+# Entorno de desarrollo local.
+#
+# Levanta los servicios de infraestructura que el backend y el frontend
+# necesitan para funcionar: base de datos y captura de correo.
+#
+#   docker compose up -d
+#
+# El backend (Spring Boot) y el frontend (Vue) se ejecutan de momento en local
+# contra estos servicios; su contenedorización (Dockerfiles + servicios aquí)
+# se añadirá más adelante.
+#
+# Variables opcionales: copia .env.example a .env para sobrescribir puertos
+# o credenciales.
+
+name: calendario-citas
+
+services:
+  mysql:
+    image: mysql:8.4
+    container_name: calendario-mysql
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-calendario}
+      MYSQL_USER: ${MYSQL_USER:-calendario}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-calendario}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root}
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_0900_ai_ci
+      # Fija la BD en UTC: el PRD exige almacenar los instantes en UTC.
+      - --default-time-zone=+00:00
+    ports:
+      - "${MYSQL_PORT:-3306}:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-p${MYSQL_ROOT_PASSWORD:-root}"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 20s
+
+  mailhog:
+    image: mailhog/mailhog:v1.0.1
+    container_name: calendario-mailhog
+    ports:
+      - "${MAILHOG_SMTP_PORT:-1025}:1025"   # SMTP
+      - "${MAILHOG_UI_PORT:-8025}:8025"     # interfaz web: http://localhost:8025
+
+volumes:
+  mysql-data:
