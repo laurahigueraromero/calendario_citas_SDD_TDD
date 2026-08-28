@@ -1,0 +1,10 @@
+# El backend corriendo como contenedor dentro de docker compose:
+# se conecta a los servicios por su nombre de servicio, no por localhost.
+
+spring:
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://mysql:3306/calendario}
+    username: ${SPRING_DATASOURCE_USERNAME:calendario}
+    password: ${SPRING_DATASOURCE_PASSWORD:calendario}
+  mail:
+    host: ${SPRING_MAIL_HOST:mailhog}
