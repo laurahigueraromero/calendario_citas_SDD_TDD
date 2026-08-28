@@ -2,6 +2,11 @@
 # Las variables permiten sobrescribir si cambias puertos/credenciales en .env.
 
 spring:
+  # Carga el .env de la raíz del repo como propiedades (ejecuta desde backend/).
+  # Así `./mvnw spring-boot:run` ve GITHUB_CLIENT_ID, etc. sin exportarlas a mano.
+  config:
+    import: "optional:file:../.env[.properties]"
+
   datasource:
     url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3306/calendario}
     username: ${SPRING_DATASOURCE_USERNAME:calendario}

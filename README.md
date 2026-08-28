@@ -37,6 +37,8 @@ El backend usa por defecto la BD `calendario` / usuario `calendario` que crea el
 
 El esquema lo gestiona **Flyway**. Para añadir un cambio, crea un fichero nuevo en `backend/src/main/resources/db/migration/` con el patrón `V<n>__descripcion.sql` (las migraciones ya mergeadas son inmutables). Se aplican solas al arrancar el backend y en los tests de integración.
 
+**Login OAuth2 (GitHub / Google).** Copia `.env.example` a `.env` en la raíz y rellena `GITHUB_CLIENT_ID` / `GITHUB_CLIENT_SECRET` (y los de Google). Ejecutando el backend desde `backend/` con el perfil `local`, esas variables se cargan automáticamente desde `../.env`. Sin credenciales el backend arranca igual, pero ese proveedor de login no funcionará. Inicio de sesión: el navegador va a `/oauth2/authorization/github` (o `/google`); cierre de sesión: `POST /logout`.
+
 > Los Dockerfiles de backend y frontend (y sus servicios en el compose) se añadirán más adelante; de momento ambos se ejecutan en local contra la infraestructura del compose.
 
 ## Tests

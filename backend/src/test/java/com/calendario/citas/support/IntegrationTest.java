@@ -2,6 +2,7 @@ package com.calendario.citas.support;
 
 import com.calendario.citas.TestcontainersConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
 
@@ -17,9 +18,11 @@ import org.springframework.test.context.ActiveProfiles;
  * <p>Convención de nombres: los tests de integración terminan en {@code *IT} y
  * los ejecuta el plugin failsafe en la fase {@code verify}.
  *
- * <p>Activa el perfil {@code test} ({@code application-test.yml}).
+ * <p>Activa el perfil {@code test} ({@code application-test.yml}) y deja un
+ * {@code MockMvc} listo para inyectar.
  */
 @SpringBootTest
+@AutoConfigureMockMvc
 @ActiveProfiles("test")
 @Import(TestcontainersConfiguration.class)
 public abstract class IntegrationTest {
