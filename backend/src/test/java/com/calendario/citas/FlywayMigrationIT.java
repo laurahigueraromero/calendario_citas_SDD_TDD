@@ -33,11 +33,18 @@ class FlywayMigrationIT extends IntegrationTest {
 	@Test
 	void baselineMigrationHasBeenApplied() {
 		assertThat(flyway.info().applied()).isNotEmpty();
-		assertThat(flyway.info().current().getVersion().getVersion()).isEqualTo("1");
 
 		Integer success = jdbcTemplate.queryForObject(
 				"SELECT COUNT(*) FROM flyway_schema_history WHERE version = '1' AND success = 1",
 				Integer.class);
 		assertThat(success).isEqualTo(1);
+	}
+
+	@Test
+	void migrationsAreAppliedWithoutFailures() {
+		Integer failed = jdbcTemplate.queryForObject(
+				"SELECT COUNT(*) FROM flyway_schema_history WHERE success = 0", Integer.class);
+		assertThat(failed).isZero();
+		assertThat(flyway.info().current()).isNotNull();
 	}
 }
