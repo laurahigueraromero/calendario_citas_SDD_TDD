@@ -6,16 +6,43 @@ Proyecto desarrollado con metodología **Spec-Driven Development**.
 
 ## Estado
 
-En especificación. El documento de requisitos vive en [`docs/PRD.md`](docs/PRD.md).
+Especificación cerrada ([`docs/PRD.md`](docs/PRD.md)) y esqueleto en marcha: backend y frontend arrancan, CI en verde en cada PR. Sin lógica de negocio todavía.
 
-## Stack previsto
+## Stack
 
 | Capa | Tecnología |
 |------|------------|
-| Backend | Spring Boot |
-| Base de datos | MySQL |
-| Frontend | Vue (web responsive) |
+| Backend | Spring Boot 4 · Java 21 · Maven |
+| Base de datos | MySQL 8.4 |
+| Frontend | Vue 3 · Vite · pnpm (web responsive) |
+| Correo (dev) | MailHog |
 | Empaquetado | Docker / `docker compose` |
+
+## Entorno de desarrollo local
+
+Requisitos: Docker, JDK 21, Node 24 y pnpm (`corepack enable`).
+
+```sh
+# 1. Infraestructura (MySQL + MailHog)
+docker compose up -d          # MySQL en :3306, MailHog UI en http://localhost:8025
+
+# 2. Backend  ->  http://localhost:8080
+cd backend && ./mvnw spring-boot:run
+
+# 3. Frontend ->  http://localhost:5173
+cd frontend && pnpm install && pnpm dev
+```
+
+El backend usa por defecto la BD `calendario` / usuario `calendario` que crea el compose. Para cambiar puertos o credenciales, copia `.env.example` a `.env`.
+
+> Los Dockerfiles de backend y frontend (y sus servicios en el compose) se añadirán más adelante; de momento ambos se ejecutan en local contra la infraestructura del compose.
+
+## Tests
+
+```sh
+cd backend  && ./mvnw verify         # incluye tests con MySQL real vía Testcontainers (requiere Docker)
+cd frontend && pnpm test:unit
+```
 
 ## Núcleo técnico
 
