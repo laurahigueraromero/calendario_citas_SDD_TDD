@@ -40,9 +40,11 @@ El backend usa por defecto la BD `calendario` / usuario `calendario` que crea el
 ## Tests
 
 ```sh
-cd backend  && ./mvnw verify         # incluye tests con MySQL real vía Testcontainers (requiere Docker)
+cd backend  && ./mvnw verify         # unit (surefire) + integración y concurrencia (failsafe, MySQL real vía Testcontainers; requiere Docker)
 cd frontend && pnpm test:unit
 ```
+
+Estrategia completa (niveles, convenciones, andamiaje): [`docs/TESTING.md`](docs/TESTING.md).
 
 ## Núcleo técnico
 
@@ -54,3 +56,4 @@ cd frontend && pnpm test:unit
 ## Documentación
 
 - [`docs/PRD.md`](docs/PRD.md) — Product Requirements Document (objetivo, modelo de datos, reglas de negocio, requisitos funcionales, requisito no funcional de concurrencia, fuera de alcance).
+- [`docs/TESTING.md`](docs/TESTING.md) — Estrategia de testing (niveles unit / integración / concurrencia, convenciones y andamiaje).
