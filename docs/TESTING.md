@@ -100,14 +100,18 @@ aceptación de cada issue del backlog.
   levanta MySQL en el runner, que ya trae Docker).
 - **frontend:** `pnpm lint` + `pnpm test:unit` + `pnpm build`.
 
-## Andamiaje disponible (issue TEST-0)
+## Andamiaje disponible
 
 | Pieza | Ubicación | Uso |
 |-------|-----------|-----|
-| `IntegrationTest` | `backend/.../support/` | Clase base para tests `*IT` con MySQL real |
+| `IntegrationTest` | `backend/.../support/` | Base `@SpringBootTest` (contexto completo) con MySQL real. Contexto y contenedor compartidos entre todas las subclases |
+| `JpaIntegrationTest` | `backend/.../support/` | Base `@DataJpaTest` (solo capa de persistencia) con MySQL real + Flyway. Rollback por test |
 | `TestcontainersConfiguration` | `backend/.../citas/` | Definición del contenedor `mysql:8.4` |
 | `ConcurrencyHarness` | `backend/.../support/` | Lanzar N hilos a la vez y recoger resultados/excepciones |
 
-Pendiente de crear cuando lleguen las entidades (issues DATA-*): *builders* de
-`Sala`, `Cliente`, `Usuario` y `Reunion` para tests, y una clase base
-`@DataJpaTest` contra el contenedor.
+> Nota Boot 4: las anotaciones de *slice* cambiaron de paquete.
+> `@DataJpaTest` → `org.springframework.boot.data.jpa.test.autoconfigure`;
+> `@AutoConfigureTestDatabase` → `org.springframework.boot.jdbc.test.autoconfigure`.
+
+Pendiente: *builders* de entidades para tests (`Sala`, `Cliente`, `Usuario`,
+`Reunion`) conforme se vayan creando en las issues correspondientes.
