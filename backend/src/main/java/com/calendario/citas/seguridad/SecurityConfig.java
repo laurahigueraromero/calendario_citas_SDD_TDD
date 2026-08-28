@@ -5,9 +5,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserRequest;
-import org.springframework.security.oauth2.core.oidc.user.OidcUser;
-import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
@@ -32,7 +29,8 @@ public class SecurityConfig {
 	@Bean
 	SecurityFilterChain securityFilterChain(
 			HttpSecurity http,
-			OAuth2UserService<OidcUserRequest, OidcUser> oidcUserService,
+			AppOidcUserService oidcUserService,
+			AppOAuth2UserService oauth2UserService,
 			RestAuthenticationEntryPoint authenticationEntryPoint,
 			AuthenticationFailureHandler oauthLoginFailureHandler) throws Exception {
 
@@ -43,7 +41,9 @@ public class SecurityConfig {
 						.requestMatchers("/login/**", "/oauth2/**").permitAll()
 						.anyRequest().authenticated())
 				.oauth2Login(login -> login
-						.userInfoEndpoint(userInfo -> userInfo.oidcUserService(oidcUserService))
+						.userInfoEndpoint(userInfo -> userInfo
+								.userService(oauth2UserService)
+								.oidcUserService(oidcUserService))
 						.failureHandler(oauthLoginFailureHandler))
 				.logout(logout -> logout
 						.logoutUrl("/logout")

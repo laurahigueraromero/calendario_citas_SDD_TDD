@@ -6,6 +6,8 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.calendario.citas.support.IntegrationTest;
 
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.oauth2Login;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.oidcLogin;
@@ -40,16 +42,19 @@ class AutenticacionIT extends IntegrationTest {
 
 	@Test
 	void usuarioDeGithubVeSusDatos() throws Exception {
-		mvc.perform(get("/api/me").with(oauth2Login().attributes(attrs -> {
-					attrs.put("login", "laurah");
-					attrs.put("name", "Laura Higuera");
-					attrs.put("email", "laura@example.com");
-				})))
+		mvc.perform(get("/api/me").with(oauth2Login()
+						.authorities(new SimpleGrantedAuthority("ROLE_EMPLEADO"))
+						.attributes(attrs -> {
+							attrs.put("login", "laurah");
+							attrs.put("name", "Laura Higuera");
+							attrs.put("email", "laura@example.com");
+						})))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.autenticado").value(true))
 				.andExpect(jsonPath("$.nombre").value("Laura Higuera"))
 				.andExpect(jsonPath("$.email").value("laura@example.com"))
-				.andExpect(jsonPath("$.proveedor").value("test"));
+				.andExpect(jsonPath("$.proveedor").value("test"))
+				.andExpect(jsonPath("$.rol").value("EMPLEADO"));
 	}
 
 	@Test
